@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.use(devAuthMiddleware);
 
-router.post("/meaning", getWordMeaning);
+//router.post("/meaning", getWordMeaning);
 
 export default router;
