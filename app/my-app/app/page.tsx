@@ -25,8 +25,12 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #FDF5E6 0%, #E3F2FD 50%, #E8F5E9 100%)" }}>
-      {/* Nav */}
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        background: "linear-gradient(135deg, #F6F1E8 0%, #EFE6D8 100%)"
+      }}
+    >      {/* Nav */}
       <nav className="w-full flex items-center justify-between px-6 md:px-12 py-5">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -124,7 +128,7 @@ export default function LandingPage() {
                 <f.icon className="w-6 h-6 text-indigo-600" />
               </div>
               <h3 className="text-lg font-semibold text-[#1E1E1E] mb-2">{f.title}</h3>
-              <p className="text-[#1E1E1E]/60 text-sm leading-relaxed">{f.desc}</p>
+              <p className="text-black/60 text-base leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </div>
