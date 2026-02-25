@@ -1,15 +1,11 @@
+// server/src/service/pdf.service.mjs
+
 import fs from "fs";
-import { createRequire } from "module";
+import pdfParse from "pdf-parse";
 
-const require = createRequire(import.meta.url);
-const pdfParse = require("pdf-parse");
-
-const extractTextFromPDF = async (filePath) => {
-  const pdfThing = new PDFParse();
+export const extractTextFromPDF = async (filePath) => {
   const dataBuffer = fs.readFileSync(filePath);
-  const data = await pdfThing.parse(dataBuffer);
+  const data = await pdfParse(dataBuffer);
 
   return data.text;
 };
-
-export default extractTextFromPDF;

@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(async (message) => {
     // Remove old injected styles if any
     const oldStyle = document.getElementById("dyslexia-style");
     if (oldStyle) oldStyle.remove();
+    const fontUrl = chrome.runtime.getURL("OpenDyslexic-Regular.otf");
 
     // Create new style tag
     const style = document.createElement("style");
@@ -19,18 +20,14 @@ chrome.runtime.onMessage.addListener(async (message) => {
     console.log(fontColor);
 
     style.innerHTML = `
-   
-      body, 
-      p, 
-      span, 
-      div, 
-      article, 
-      section, 
-      main, 
-      li, 
-      td, 
-      th {
-        font-family: ${fontFamily} !important;
+   @font-face {
+    font-family: 'OpenDyslexic';
+    src: url('${fontUrl}') format('opentype');
+  }
+
+  body, p, span, div, article, section, main, li, td, th {
+    /* Use the font-family variable or the hardcoded string correctly */
+    font-family: 'OpenDyslexic', sans-serif !important;
         font-size: ${fontSize}px !important;
         line-height: ${lineHeight} !important;
         word-spacing: ${wordSpacing}em !important;

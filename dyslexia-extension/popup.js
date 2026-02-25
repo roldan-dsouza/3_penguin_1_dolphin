@@ -4,6 +4,7 @@ document.getElementById("apply").addEventListener("click", async () => {
   const lineHeight = document.getElementById("lineHeight").value;
   const wordSpacing = document.getElementById("wordSpacing").value;
   const background = document.getElementById("background").value;
+  const fontColor = document.getElementById("fontColor").value;
 
   const [tab] = await chrome.tabs.query({
     active: true,
@@ -24,6 +25,7 @@ document.getElementById("apply").addEventListener("click", async () => {
       lineHeight,
       wordSpacing,
       background,
+      fontColor,
     },
   });
 });

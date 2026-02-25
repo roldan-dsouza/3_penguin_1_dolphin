@@ -1,4 +1,4 @@
-// models/document.model.js
+// server/src/models/document.model.mjs
 
 import mongoose from "mongoose";
 
@@ -9,27 +9,27 @@ const documentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-
     title: {
       type: String,
       required: true,
     },
-
     originalFileUrl: {
       type: String,
     },
-
     originalContent: {
       type: String,
       required: true,
     },
-
+    // Changed: removed required: true so you can save
+    // the document while the AI is still "thinking"
     simplifiedContent: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true },
 );
 
-export default mongoose.model("Document", documentSchema);
+// Prevent re-compilation error if hot-reloading
+const Document =
+  mongoose.models.Document || mongoose.model("Document", documentSchema);
+export default Document;

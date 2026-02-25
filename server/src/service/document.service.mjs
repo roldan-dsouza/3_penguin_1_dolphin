@@ -1,4 +1,4 @@
-import Document from "../models/document.model.js";
+import { Document } from "../models/document.model.mjs";
 import { extractTextFromPDF } from "./pdf.service.mjs";
 import { simplifyWithAI } from "./ai.service.mjs";
 
