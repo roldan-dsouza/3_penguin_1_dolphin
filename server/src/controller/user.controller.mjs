@@ -77,10 +77,8 @@ export const saveOnboarding = async (req, res) => {
 
 export const updateSettings = async (req, res) => {
   try {
-    const userId = req.user.id; // assuming auth middleware
+    const userId = req.user.id;
 
-    // Remove undefined fields (so we only update what was sent)
-    const updates = {};
     const allowedFields = [
       "font",
       "fontSize",
@@ -89,25 +87,27 @@ export const updateSettings = async (req, res) => {
       "background",
     ];
 
+    const updateObject = {};
+
     allowedFields.forEach((field) => {
       if (req.body[field] !== undefined) {
-        updates[field] = req.body[field];
+        updateObject[`settings.${field}`] = req.body[field];
       }
     });
 
-    if (Object.keys(updates).length === 0) {
+    if (Object.keys(updateObject).length === 0) {
       return res.status(400).json({ message: "No fields provided to update" });
     }
 
-    const updatedSettings = await userModel.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: updates },
+      { $set: updateObject },
       { new: true, runValidators: true },
     );
 
     res.status(200).json({
       message: "Settings updated successfully",
-      settings: updatedSettings,
+      settings: updatedUser.settings,
     });
   } catch (err) {
     return res.status(400).json({ message: err.message });
