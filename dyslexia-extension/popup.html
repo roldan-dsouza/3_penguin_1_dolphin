@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dyslexia Assist</title>
+  </head>
+  <body>
+    <button id="activate">Activate Dyslexia Mode</button>
+
+    <script>
+      document
+        .getElementById("activate")
+        .addEventListener("click", async () => {
+          // Get current active tab
+          /*
+            It returns an array of tabs.
+            We use [tab] because:
+            We only care about the first active tab.
+          */
+          const [tab] = await chrome.tabs.query({
+            active: true,
+            currentWindow: true,
+          });
+
+          // Inject content.js into that tab
+          chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ["content.js"],
+          });
+        });
+    </script>
+  </body>
+</html>

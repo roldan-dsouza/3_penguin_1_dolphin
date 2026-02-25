@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 3, // new version of chrome
   "name": "Dyslexia Assist",
   "version": "1.0",
   "description": "Makes web content easier for dyslexic readers",
