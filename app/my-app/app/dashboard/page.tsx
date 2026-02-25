@@ -10,7 +10,6 @@ import {
   Trash2,
   BookOpen,
   LogOut,
-  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,79 +22,34 @@ export default function DashboardPage() {
   const router = useRouter();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [dragOver, setDragOver] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const preset = presetColors[preferences.bgPreset];
 
   const handleFile = useCallback(
-    async (file: File) => {
-      // Allow .txt and .pdf (backend supports both)
-      if (!file.name.endsWith(".txt") && !file.name.endsWith(".pdf")) {
-        alert("Please upload a .txt or .pdf file");
+    (file: File) => {
+      if (!file.name.endsWith(".txt")) {
+        alert("Please upload a .txt file");
         return;
       }
-
-      setIsUploading(true);
-
-      const formData = new FormData();
-      formData.append("file", file);
-      // Send the user's reading mode (line/paragraph) to the backend
-      formData.append("mode", preferences.readingMode || "paragraph");
-
-      try {
-        // Use environment variable for API base URL (set in .env.local)
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-        const response = await fetch(`${apiUrl}/api/document/upload`, {
-          method: "POST",
-          // If your backend uses cookies for authentication, include credentials
-          credentials: "include",
-          // If you use JWT tokens, add an Authorization header:
-          // headers: { Authorization: `Bearer ${user?.token}` },
-          body: formData,
-        });
-
-        // Read response as text first for debugging (remove in production)
-        const responseText = await response.text();
-        console.log("Upload response status:", response.status);
-        console.log("Upload response body:", responseText);
-
-        if (!response.ok) {
-          let errorMsg = `Upload failed (${response.status})`;
-          try {
-            const errorData = JSON.parse(responseText);
-            errorMsg = errorData.error || errorMsg;
-          } catch {
-            if (responseText) errorMsg = responseText;
-          }
-          throw new Error(errorMsg);
-        }
-
-        const data = JSON.parse(responseText);
-        const documentId = data.documentId;
-
-        // Navigate to the reader page with the document ID
-        router.push(`/reader?id=${documentId}`);
-      } catch (error: any) {
-        console.error("Upload error:", error);
-        alert(error.message || "An error occurred while uploading.");
-      } finally {
-        setIsUploading(false);
-        // Reset file input so the same file can be uploaded again if needed
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target?.result as string;
+        const id = addNote(file.name.replace(".txt", ""), content);
+        router.push(`/reader?id=${id}`);
+      };
+      reader.readAsText(file);
     },
-    [router, preferences.readingMode]
+    [addNote, router],
   );
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
       setDragOver(false);
-      if (isUploading) return; // prevent drop while uploading
       const file = e.dataTransfer.files[0];
       if (file) handleFile(file);
     },
-    [handleFile, isUploading]
+    [handleFile],
   );
 
   const handleLogout = () => {
@@ -124,6 +78,7 @@ export default function DashboardPage() {
             <span className="text-xl font-bold">ReadEasy</span>
           </div>
           <div className="flex items-center gap-2">
+            <span className="text-sm opacity-60 hidden sm:block"></span>
             <Button
               variant="ghost"
               size="icon"
@@ -154,7 +109,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             Your Dashboard
           </h1>
-          <p className="opacity-60 mb-8">Upload a text or PDF file to start reading</p>
+          <p className="opacity-60 mb-8">Upload a text file to start reading</p>
 
           <div
             onDragOver={(e) => {
@@ -163,42 +118,33 @@ export default function DashboardPage() {
             }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
-            onClick={() => !isUploading && fileInputRef.current?.click()}
+            onClick={() => fileInputRef.current?.click()}
             className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${dragOver
                 ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
                 : "border-current/20 hover:border-current/40 hover:bg-current/5"
-              } ${isUploading ? "opacity-50 pointer-events-none" : ""}`}
+              }`}
           >
             <motion.div
               animate={dragOver ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
               className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-5 shadow-lg"
             >
-              {isUploading ? (
-                <Loader2 className="w-8 h-8 text-white animate-spin" />
-              ) : (
-                <Upload className="w-8 h-8 text-white" />
-              )}
+              <Upload className="w-8 h-8 text-white" />
             </motion.div>
             <p className="text-lg font-semibold mb-1">
-              {isUploading
-                ? "Processing..."
-                : dragOver
-                  ? "Drop your file here!"
-                  : "Drag & drop a .txt or .pdf file here"}
+              {dragOver
+                ? "Drop your file here!"
+                : "Drag & drop a .txt file here"}
             </p>
-            <p className="text-sm opacity-50">
-              {isUploading ? "This may take a moment" : "or click to browse your files"}
-            </p>
+            <p className="text-sm opacity-50">or click to browse your files</p>
             <input
               ref={fileInputRef}
               type="file"
-              accept=".txt,.pdf"
+              accept=".txt"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) handleFile(file);
               }}
               className="hidden"
-              disabled={isUploading}
             />
           </div>
         </motion.section>
@@ -224,7 +170,7 @@ export default function DashboardPage() {
                 <FileText className="w-12 h-12 mx-auto mb-4 opacity-20" />
                 <p className="text-lg font-medium opacity-40">No notes yet</p>
                 <p className="text-sm opacity-30 mt-1">
-                  Upload a .txt or .pdf file to get started
+                  Upload a .txt file to get started
                 </p>
               </CardContent>
             </Card>
