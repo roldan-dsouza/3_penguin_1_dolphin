@@ -44,7 +44,8 @@ export default function DashboardPage() {
 
       try {
         // Use environment variable for API base URL (set in .env.local)
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
         const response = await fetch(`${apiUrl}/api/document/upload`, {
           method: "POST",
           // If your backend uses cookies for authentication, include credentials
@@ -84,7 +85,7 @@ export default function DashboardPage() {
         if (fileInputRef.current) fileInputRef.current.value = "";
       }
     },
-    [router, preferences.readingMode]
+    [router, preferences.readingMode],
   );
 
   const handleDrop = useCallback(
@@ -95,7 +96,7 @@ export default function DashboardPage() {
       const file = e.dataTransfer.files[0];
       if (file) handleFile(file);
     },
-    [handleFile, isUploading]
+    [handleFile, isUploading],
   );
 
   const handleLogout = () => {
@@ -154,7 +155,9 @@ export default function DashboardPage() {
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             Your Dashboard
           </h1>
-          <p className="opacity-60 mb-8">Upload a text or PDF file to start reading</p>
+          <p className="opacity-60 mb-8">
+            Upload a text or PDF file to start reading
+          </p>
 
           <div
             onDragOver={(e) => {
@@ -164,10 +167,11 @@ export default function DashboardPage() {
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             onClick={() => !isUploading && fileInputRef.current?.click()}
-            className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${dragOver
+            className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${
+              dragOver
                 ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
                 : "border-current/20 hover:border-current/40 hover:bg-current/5"
-              } ${isUploading ? "opacity-50 pointer-events-none" : ""}`}
+            } ${isUploading ? "opacity-50 pointer-events-none" : ""}`}
           >
             <motion.div
               animate={dragOver ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
@@ -187,7 +191,9 @@ export default function DashboardPage() {
                   : "Drag & drop a .txt or .pdf file here"}
             </p>
             <p className="text-sm opacity-50">
-              {isUploading ? "This may take a moment" : "or click to browse your files"}
+              {isUploading
+                ? "This may take a moment"
+                : "or click to browse your files"}
             </p>
             <input
               ref={fileInputRef}

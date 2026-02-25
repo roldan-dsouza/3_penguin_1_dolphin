@@ -1,7 +1,13 @@
 chrome.runtime.onMessage.addListener(async (message) => {
   if (message.type === "APPLY_STYLES") {
-    const { fontFamily, fontSize, lineHeight, wordSpacing, background } =
-      message.payload;
+    const {
+      fontFamily,
+      fontSize,
+      lineHeight,
+      wordSpacing,
+      background,
+      fontColor,
+    } = message.payload;
 
     // Remove old injected styles if any
     const oldStyle = document.getElementById("dyslexia-style");
@@ -10,8 +16,10 @@ chrome.runtime.onMessage.addListener(async (message) => {
     // Create new style tag
     const style = document.createElement("style");
     style.id = "dyslexia-style";
+    console.log(fontColor);
 
     style.innerHTML = `
+   
       body, 
       p, 
       span, 
@@ -27,6 +35,8 @@ chrome.runtime.onMessage.addListener(async (message) => {
         line-height: ${lineHeight} !important;
         word-spacing: ${wordSpacing}em !important;
         background-color: ${background} !important;
+        color: ${fontColor} !important;
+        
       }
     `;
 
