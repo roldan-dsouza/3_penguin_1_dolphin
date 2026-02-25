@@ -6,16 +6,20 @@ import documentRoutes from "./route/document.route.mjs";
 import progressRoutes from "./route/progress.route.mjs";
 import wordRoutes from "./route/word.route.mjs";
 import authRoutes from "./routes/auth.routes.mjs";
-import cors from "cors";
+import simplifyRoutes from "./routes/simplify.routes.mjs";
 
 dotenv.config();
-// import cors from "cors";
+import cors from "cors";
 // import morgan from "morgan";
 
 const app = express();
 
+import cors from "cors";
+
+app.use(cors({ origin: "*" }));
+
 const corsOptions = {
-  origin: "*",
+  origin: [process.env.FRONTEND_DOMAIN, "*"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -34,6 +38,7 @@ app.use("/api/document", documentRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/word", wordRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/simplify", simplifyRoutes);
 
 // Test route
 app.get("/try", (req, res) => {

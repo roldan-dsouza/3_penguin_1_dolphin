@@ -1,5 +1,20 @@
 "use client";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
+import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -28,7 +43,10 @@ export default function LineByLineMode({ text }: Props) {
   const preset = presetColors[preferences.bgPreset];
   const sentences = splitSentences(text);
   const [index, setIndex] = useState(0);
-
+  const [voiceName, setVoiceName] = useState("Google UK English Male");
+  const [rate, setRate] = useState(1.2);
+  const [volume, setVolume] = useState(1);
+  const [open, setOpen] = useState(false);
   const goNext = useCallback(() => {
     setIndex((prev) => Math.min(prev + 1, sentences.length - 1));
   }, [sentences.length]);
@@ -106,21 +124,80 @@ export default function LineByLineMode({ text }: Props) {
           <span className="hidden sm:inline">Previous</span>
         </Button>
 
-        <Button
-          variant="outline"
-          size="lg"
-          className="gap-2"
-          aria-label="Previous sentence"
-          onClick={async () => {
-            await speakText(sentences[index], {
-              voiceName: "Google UK English Male",
-              rate: 1.2,
-              pitch: 1.0,
-            });
-          }}
-        >
-          Read Text
-        </Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="lg" className="gap-2">
+              Read Text
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="space-y-6">
+            <DialogHeader>
+              <DialogTitle>Speech Settings</DialogTitle>
+            </DialogHeader>
+
+            {/* Voice Selection */}
+            <div>
+              <p className="mb-2 text-sm font-medium">Voice Type</p>
+              <Select value={voiceName} onValueChange={setVoiceName}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Voice" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Google UK English Male">
+                    UK Male
+                  </SelectItem>
+                  <SelectItem value="Google US English Female">
+                    US Female
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Speed Slider */}
+            <div>
+              <p className="mb-2 text-sm font-medium">
+                Speed: {rate.toFixed(1)}
+              </p>
+              <Slider
+                defaultValue={[rate]}
+                min={0.5}
+                max={2}
+                step={0.1}
+                onValueChange={(val) => setRate(val[0])}
+              />
+            </div>
+
+            {/* Volume Slider */}
+            <div>
+              <p className="mb-2 text-sm font-medium">
+                Volume: {volume.toFixed(1)}
+              </p>
+              <Slider
+                defaultValue={[volume]}
+                min={0}
+                max={1}
+                step={0.1}
+                onValueChange={(val) => setVolume(val[0])}
+              />
+            </div>
+
+            {/* Play Button */}
+            <Button
+              className="w-full"
+              onClick={async () => {
+                await speakText(sentences[index], {
+                  voiceName,
+                  rate,
+                  pitch: 1.6,
+                });
+                setOpen(false);
+              }}
+            >
+              Play
+            </Button>
+          </DialogContent>
+        </Dialog>
 
         <Button
           variant="accent"
