@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Play, X, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getDefinition, getSyllables } from "@/lib/dictionary";
+import { getDefinition, getSyllables, getPhonetic } from "@/lib/dictionary";
 import { useApp, presetColors } from "@/context/AppContext";
 
 const syllableColors = [
@@ -87,6 +87,10 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
 
     const menuLeft = Math.min(menuPos.x, typeof window !== "undefined" ? window.innerWidth - 220 : menuPos.x);
     const menuTop = Math.min(menuPos.y + 10, typeof window !== "undefined" ? window.innerHeight - 200 : menuPos.y);
+
+    // Get phonetic for the word
+    const phonetic = selectedWord ? getPhonetic(selectedWord) : null;
+    const syllables = selectedWord ? getSyllables(selectedWord) : [];
 
     return (
         <div ref={menuRef}>
@@ -186,16 +190,49 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
                             </div>
 
                             <div className="px-6 pb-8 text-center">
-                                {/* Floating Avatar */}
+                                {/* Human-like Avatar */}
                                 <motion.div
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                                    className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-5 shadow-xl"
+                                    animate={{ y: [0, -5, 0] }}
+                                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                                    className="relative w-28 h-28 mx-auto mb-5"
                                 >
-                                    <span className="text-4xl">🤖</span>
+                                    {/* Head */}
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-300 to-amber-400 shadow-xl flex items-center justify-center">
+                                        {/* Eyes */}
+                                        <div className="flex gap-4 mt-2">
+                                            <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center">
+                                                <div className="w-2 h-2 rounded-full bg-gray-800"></div>
+                                            </div>
+                                            <div className="w-4 h-4 rounded-full bg-white flex items-center justify-center">
+                                                <div className="w-2 h-2 rounded-full bg-gray-800"></div>
+                                            </div>
+                                        </div>
+                                        {/* Mouth - changes when speaking */}
+                                        <motion.div
+                                            animate={
+                                                isSpeaking
+                                                    ? {
+                                                        scaleY: [1, 1.3, 1],
+                                                        transition: { repeat: Infinity, duration: 0.3 }
+                                                    }
+                                                    : {}
+                                            }
+                                            className="absolute bottom-5 w-8 h-3 rounded-full bg-red-400"
+                                            style={{
+                                                borderRadius: isSpeaking ? "50%" : "0 0 20px 20px",
+                                                transform: isSpeaking ? "scale(1.2)" : "none"
+                                            }}
+                                        />
+                                    </div>
                                 </motion.div>
 
-                                {/* Speech Bubble */}
+                                {/* Word and Phonetic */}
+                                <h3 className="text-2xl font-bold mb-1">{selectedWord}</h3>
+                                {phonetic && (
+                                    <p className="text-sm font-mono opacity-70 mb-4">{phonetic}</p>
+                                )}
+
+                                {/* Speech Bubble with Syllables */}
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.8, y: 10 }}
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -207,7 +244,7 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
 
                                     {/* Syllables */}
                                     <div className="flex items-center justify-center gap-1 text-2xl md:text-3xl font-bold flex-wrap">
-                                        {getSyllables(selectedWord).map((syl, i) => (
+                                        {syllables.map((syl, i) => (
                                             <motion.span
                                                 key={i}
                                                 initial={{ opacity: 0, y: 10 }}
@@ -216,7 +253,7 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
                                                 className={syllableColors[i % syllableColors.length]}
                                             >
                                                 {syl}
-                                                {i < getSyllables(selectedWord).length - 1 && (
+                                                {i < syllables.length - 1 && (
                                                     <span className="opacity-30 mx-0.5">·</span>
                                                 )}
                                             </motion.span>
