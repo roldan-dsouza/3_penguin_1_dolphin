@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("fonts/OpenDyslexic-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply it to the whole body or specific elements */
+body {
+  font-family: "OpenDyslexic", sans-serif !important;
+}

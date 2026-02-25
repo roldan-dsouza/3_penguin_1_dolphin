@@ -49,7 +49,11 @@ export default function DashboardPage() {
       const file = e.dataTransfer.files[0];
       if (file) handleFile(file);
     },
+<<<<<<< HEAD
+    [handleFile, isUploading],
+=======
     [handleFile],
+>>>>>>> 52096dce88da186da926ff73cd70033c6b7f8cc0
   );
 
   const handleLogout = () => {
@@ -109,7 +113,13 @@ export default function DashboardPage() {
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             Your Dashboard
           </h1>
+<<<<<<< HEAD
+          <p className="opacity-60 mb-8">
+            Upload a text or PDF file to start reading
+          </p>
+=======
           <p className="opacity-60 mb-8">Upload a text file to start reading</p>
+>>>>>>> 52096dce88da186da926ff73cd70033c6b7f8cc0
 
           <div
             onDragOver={(e) => {
@@ -118,11 +128,20 @@ export default function DashboardPage() {
             }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
+<<<<<<< HEAD
+            onClick={() => !isUploading && fileInputRef.current?.click()}
+            className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${
+              dragOver
+                ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
+                : "border-current/20 hover:border-current/40 hover:bg-current/5"
+            } ${isUploading ? "opacity-50 pointer-events-none" : ""}`}
+=======
             onClick={() => fileInputRef.current?.click()}
             className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${dragOver
               ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
               : "border-current/20 hover:border-current/40 hover:bg-current/5"
               }`}
+>>>>>>> 52096dce88da186da926ff73cd70033c6b7f8cc0
           >
             <motion.div
               animate={dragOver ? { scale: 1.1, y: -5 } : { scale: 1, y: 0 }}
@@ -131,9 +150,22 @@ export default function DashboardPage() {
               <Upload className="w-8 h-8 text-white" />
             </motion.div>
             <p className="text-lg font-semibold mb-1">
+<<<<<<< HEAD
+              {isUploading
+                ? "Processing..."
+                : dragOver
+                  ? "Drop your file here!"
+                  : "Drag & drop a .txt or .pdf file here"}
+            </p>
+            <p className="text-sm opacity-50">
+              {isUploading
+                ? "This may take a moment"
+                : "or click to browse your files"}
+=======
               {dragOver
                 ? "Drop your file here!"
                 : "Drag & drop a .txt file here"}
+>>>>>>> 52096dce88da186da926ff73cd70033c6b7f8cc0
             </p>
             <p className="text-sm opacity-50">or click to browse your files</p>
             <input

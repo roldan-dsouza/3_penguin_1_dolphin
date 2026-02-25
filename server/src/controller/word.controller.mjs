@@ -1,10 +1,16 @@
 import Groq from "groq-sdk";
+import dotenv from "dotenv";
+dotenv.config();
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: GROQ_API_KEY });
 
 export const simplifyHtmlForDyslexia = async (req, res) => {
   try {
+    console.log("it ran");
     const { htmlContent } = req.body;
+
+    console.log("Received HTML content:", htmlContent);
 
     if (!htmlContent) {
       return res.status(400).json({ message: "HTML content is required." });
@@ -25,7 +31,6 @@ export const simplifyHtmlForDyslexia = async (req, res) => {
   - Use clear and direct language.
   - One idea per sentence.
   - Avoid complex words.
-  - Avoid long paragraphs.
   - Avoid passive voice.
   
   CRITICAL RULES:

@@ -6,3 +6,5 @@ const router = express.Router();
 router.post("/", simplifyContent);
 
 export default router;
+
+// NOT INCLUDED FOR NOW

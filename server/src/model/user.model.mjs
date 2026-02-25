@@ -21,11 +21,12 @@ const userSchema = new mongoose.Schema(
     },
 
     onboarding: {
-      prefersLargeText: { type: Boolean, default: false },
-      strugglesWithWhite: { type: Boolean, default: false },
+      prefersLargeText: { type: Boolean, default: true },
+      strugglesWithWhite: { type: Boolean, default: true },
       readingMode: {
         type: String,
         enum: ["line", "paragraph", "normal"],
+        default: "line",
       },
     },
 
