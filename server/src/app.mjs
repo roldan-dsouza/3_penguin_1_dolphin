@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors({ origin: "*" }));
 
-/*const corsOptions = {
+const corsOptions = {
   origin: [process.env.FRONTEND_DOMAIN, "*"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -27,7 +27,7 @@ app.use(cors({ origin: "*" }));
 console.log("CORS Origins:", process.env.FRONTEND_DOMAIN);
 
 // Middleware
-app.use(cors(corsOptions));*/
+app.use(cors(corsOptions));
 // app.use(morgan("dev"));
 app.use(express.json());
 

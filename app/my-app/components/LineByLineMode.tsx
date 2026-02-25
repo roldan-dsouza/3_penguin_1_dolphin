@@ -8,7 +8,13 @@ import {
 } from "@/components/ui/dialog";
 
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -120,11 +126,7 @@ export default function LineByLineMode({ text }: Props) {
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              size="lg"
-              className="gap-2"
-            >
+            <Button variant="outline" size="lg" className="gap-2">
               Read Text
             </Button>
           </DialogTrigger>
@@ -208,8 +210,6 @@ export default function LineByLineMode({ text }: Props) {
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="w-5 h-5" />
         </Button>
-
-
       </div>
     </div>
   );
