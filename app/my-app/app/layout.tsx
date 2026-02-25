@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased" style={{ fontFamily: "'Lexend', sans-serif" }}>
+      <body className="antialiased" style={{ fontFamily: "'OpenDyslexic', sans-serif" }}>
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

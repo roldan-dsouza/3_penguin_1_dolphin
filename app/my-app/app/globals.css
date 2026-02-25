@@ -1,37 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 @import "tailwindcss";
 
 :root {
   --background: #FDF5E6;
   --foreground: #1E1E1E;
-  --font-lexend: 'Lexend', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-lexend);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'OpenDyslexic', sans-serif;
 }
 
+/* Global Reset */
 * {
   box-sizing: border-box;
+  font-family: 'OpenDyslexic', sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Lexend', sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* Text Selection */
 ::selection {
   background: rgba(99, 102, 241, 0.3);
   color: inherit;
 }
 
+/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -49,6 +53,7 @@ body {
   background: rgba(30, 30, 30, 0.4);
 }
 
+/* Reading Ruler Effect */
 .reading-ruler-line {
   position: relative;
 }
@@ -71,6 +76,7 @@ body {
   opacity: 1;
 }
 
+/* Floating Animation */
 @keyframes float {
 
   0%,
@@ -87,6 +93,7 @@ body {
   animation: float 2s ease-in-out infinite;
 }
 
+/* Gradient Animation */
 @keyframes gradient-shift {
   0% {
     background-position: 0% 50%;
