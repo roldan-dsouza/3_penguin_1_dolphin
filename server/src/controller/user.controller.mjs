@@ -81,12 +81,10 @@ export const updateSettings = async (req, res) => {
     };
     const newSettings = new userModel(settings);
     const updatedSettings = await newSettings.save();
-    res
-      .status(200)
-      .json({
-        message: "Settings updated successfully",
-        settings: updatedSettings,
-      });
+    res.status(200).json({
+      message: "Settings updated successfully",
+      settings: updatedSettings,
+    });
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
