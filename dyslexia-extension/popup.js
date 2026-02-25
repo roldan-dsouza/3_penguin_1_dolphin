@@ -26,4 +26,21 @@ document.getElementById("apply").addEventListener("click", async () => {
       background,
     },
   });
+
+  document.getElementById("simplify").addEventListener("click", async () => {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
+
+    // Inject content script
+    await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["content.js"],
+    });
+
+    chrome.tabs.sendMessage(tab.id, {
+      type: "SIMPLIFY_PAGE",
+    });
+  });
 });
