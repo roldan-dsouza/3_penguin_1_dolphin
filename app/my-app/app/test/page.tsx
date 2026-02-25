@@ -9,7 +9,7 @@ export default function TextToSpeech() {
     useState<SpeechSynthesisVoice | null>(null);
   const [rate, setRate] = useState(1);
   const [pitch, setPitch] = useState(1);
-  const [token, setToken] = useState<string | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,24 +43,6 @@ export default function TextToSpeech() {
     utterance.lang = selectedVoice?.lang ?? "en-GB";
 
     window.speechSynthesis.speak(utterance);
-  };
-
-  const fetchToken = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/token", { method: "POST" });
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `status ${res.status}`);
-      }
-      const data = await res.json();
-      setToken(data?.token ?? JSON.stringify(data));
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -129,17 +111,6 @@ export default function TextToSpeech() {
         >
           Speak
         </button>
-        <button
-          onClick={fetchToken}
-          disabled={loading}
-          className="w-full mt-4 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50"
-        >
-          {loading ? "Fetching token…" : "Get API Token"}
-        </button>
-        {token && (
-          <pre className="mt-4 break-all bg-gray-200 p-3 rounded">{token}</pre>
-        )}
-        {error && <p className="mt-2 text-sm text-red-600">Error: {error}</p>}
       </div>
     </main>
   );
