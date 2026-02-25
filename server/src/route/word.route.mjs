@@ -9,6 +9,6 @@ const router = express.Router();
 router.use(devAuthMiddleware);
 
 //router.post("/meaning", getWordMeaning);
-router.get("/enhanced", simplifyHtmlForDyslexia);
+router.post("/enhanced", simplifyHtmlForDyslexia);
 
 export default router;
