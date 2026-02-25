@@ -25,7 +25,13 @@ const features = [
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(135deg, #FDF5E6 0%, #E3F2FD 50%, #E8F5E9 100%)" }}>
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        background:
+          "linear-gradient(135deg, #FDF5E6 0%, #E3F2FD 50%, #E8F5E9 100%)",
+      }}
+    >
       {/* Nav */}
       <nav className="w-full flex items-center justify-between px-6 md:px-12 py-5">
         <motion.div
@@ -38,7 +44,10 @@ export default function LandingPage() {
           </div>
           <span className="text-xl font-bold text-[#1E1E1E]">ReadEasy</span>
         </motion.div>
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
           <Link href="/login">
             <Button variant="ghost" size="sm" className="text-[#1E1E1E]">
               Log In
@@ -79,8 +88,9 @@ export default function LandingPage() {
           transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           className="text-lg md:text-xl text-[#1E1E1E]/70 max-w-2xl mb-10 leading-relaxed"
         >
-          Upload any text and we&apos;ll make it easier to read. Get word meanings,
-          hear pronunciations, and customize everything to fit your comfort.
+          Upload any text and we&apos;ll make it easier to read. Get word
+          meanings, hear pronunciations, and customize everything to fit your
+          comfort.
         </motion.p>
 
         <motion.div
@@ -123,8 +133,12 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center mx-auto mb-4">
                 <f.icon className="w-6 h-6 text-indigo-600" />
               </div>
-              <h3 className="text-lg font-semibold text-[#1E1E1E] mb-2">{f.title}</h3>
-              <p className="text-[#1E1E1E]/60 text-sm leading-relaxed">{f.desc}</p>
+              <h3 className="text-lg font-semibold text-[#1E1E1E] mb-2">
+                {f.title}
+              </h3>
+              <p className="text-black/60 text-base leading-relaxed">
+                {f.desc}
+              </p>
             </motion.div>
           ))}
         </div>

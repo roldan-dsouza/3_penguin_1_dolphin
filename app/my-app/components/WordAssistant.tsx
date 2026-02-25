@@ -33,6 +33,13 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
     const [isSpeaking, setIsSpeaking] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
+    // New state for async data
+    const [definition, setDefinition] = useState<string | null>(null);
+    const [phonetic, setPhonetic] = useState<string | null>(null);
+    const [syllables, setSyllables] = useState<string[]>([]);
+    const [loadingMeaning, setLoadingMeaning] = useState(false);
+    const [loadingPronunciation, setLoadingPronunciation] = useState(false);
+
     const handleDoubleClick = useCallback((e: MouseEvent) => {
         const selection = window.getSelection();
         const word = selection?.toString().trim();
@@ -88,9 +95,39 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
     const menuLeft = Math.min(menuPos.x, typeof window !== "undefined" ? window.innerWidth - 220 : menuPos.x);
     const menuTop = Math.min(menuPos.y + 10, typeof window !== "undefined" ? window.innerHeight - 200 : menuPos.y);
 
-    // Get phonetic for the word
-    const phonetic = selectedWord ? getPhonetic(selectedWord) : null;
-    const syllables = selectedWord ? getSyllables(selectedWord) : [];
+    // Async handlers
+    const handleMeaningClick = useCallback(async () => {
+        setShowMenu(false);
+        setShowMeaning(true);
+        if (!selectedWord) return;
+        setLoadingMeaning(true);
+        const def = await getDefinition(selectedWord);
+        setDefinition(def);
+        setLoadingMeaning(false);
+    }, [selectedWord]);
+
+    const handlePronunciationClick = useCallback(async () => {
+        setShowMenu(false);
+        setShowPronunciation(true);
+        if (!selectedWord) return;
+        setLoadingPronunciation(true);
+        const [phon, syl] = await Promise.all([
+            getPhonetic(selectedWord),
+            getSyllables(selectedWord),
+        ]);
+        setPhonetic(phon);
+        setSyllables(syl);
+        setLoadingPronunciation(false);
+    }, [selectedWord]);
+
+    // Reset data when a new word is selected
+    useEffect(() => {
+        if (selectedWord) {
+            setDefinition(null);
+            setPhonetic(null);
+            setSyllables([]);
+        }
+    }, [selectedWord]);
 
     return (
         <div ref={menuRef}>
@@ -115,14 +152,14 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
                             &ldquo;{selectedWord}&rdquo;
                         </div>
                         <button
-                            onClick={() => { setShowMenu(false); setShowMeaning(true); }}
+                            onClick={handleMeaningClick}
                             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-indigo-500/10 transition-colors text-left cursor-pointer"
                         >
                             <BookOpen className="w-4 h-4 text-indigo-500" />
                             <span className="font-medium">Meaning</span>
                         </button>
                         <button
-                            onClick={() => { setShowMenu(false); setShowPronunciation(true); }}
+                            onClick={handlePronunciationClick}
                             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-purple-500/10 transition-colors text-left cursor-pointer"
                         >
                             <Volume2 className="w-4 h-4 text-purple-500" />
@@ -158,7 +195,13 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
                                 <X className="w-4 h-4 opacity-50" />
                             </button>
                         </div>
-                        <p className="leading-relaxed opacity-80">{getDefinition(selectedWord)}</p>
+                        {loadingMeaning ? (
+                            <div className="flex justify-center py-4">
+                                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-500" />
+                            </div>
+                        ) : (
+                            <p className="leading-relaxed opacity-80">{definition}</p>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -243,22 +286,28 @@ export default function WordAssistant({ containerRef }: WordAssistantProps) {
                                     <p className="text-sm font-medium opacity-60 mb-3">Let&apos;s break it down:</p>
 
                                     {/* Syllables */}
-                                    <div className="flex items-center justify-center gap-1 text-2xl md:text-3xl font-bold flex-wrap">
-                                        {syllables.map((syl, i) => (
-                                            <motion.span
-                                                key={i}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.5 + i * 0.15 }}
-                                                className={syllableColors[i % syllableColors.length]}
-                                            >
-                                                {syl}
-                                                {i < syllables.length - 1 && (
-                                                    <span className="opacity-30 mx-0.5">·</span>
-                                                )}
-                                            </motion.span>
-                                        ))}
-                                    </div>
+                                    {loadingPronunciation ? (
+                                        <div className="flex justify-center py-4">
+                                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500" />
+                                        </div>
+                                    ) : (
+                                        <div className="flex items-center justify-center gap-1 text-2xl md:text-3xl font-bold flex-wrap">
+                                            {syllables.map((syl, i) => (
+                                                <motion.span
+                                                    key={i}
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ delay: 0.5 + i * 0.15 }}
+                                                    className={syllableColors[i % syllableColors.length]}
+                                                >
+                                                    {syl}
+                                                    {i < syllables.length - 1 && (
+                                                        <span className="opacity-30 mx-0.5">·</span>
+                                                    )}
+                                                </motion.span>
+                                            ))}
+                                        </div>
+                                    )}
                                 </motion.div>
 
                                 {/* Play Button */}
