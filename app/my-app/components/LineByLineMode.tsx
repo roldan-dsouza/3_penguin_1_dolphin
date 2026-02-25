@@ -133,8 +133,6 @@ export default function LineByLineMode({ text }: Props) {
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="w-5 h-5" />
         </Button>
-
-        <b>hello</b>
       </div>
     </div>
   );

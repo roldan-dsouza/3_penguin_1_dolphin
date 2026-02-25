@@ -6,6 +6,7 @@ import documentRoutes from "./route/document.route.mjs";
 import progressRoutes from "./route/progress.route.mjs";
 import wordRoutes from "./route/word.route.mjs";
 import authRoutes from "./routes/auth.routes.mjs";
+import cors from "cors";
 
 dotenv.config();
 // import cors from "cors";
@@ -13,8 +14,8 @@ dotenv.config();
 
 const app = express();
 
-/*const corsOptions = {
-  origin: [process.env.FRONTEND_DOMAIN, "*"],
+const corsOptions = {
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
@@ -23,7 +24,7 @@ const app = express();
 console.log("CORS Origins:", process.env.FRONTEND_DOMAIN);
 
 // Middleware
-app.use(cors(corsOptions));*/
+app.use(cors(corsOptions));
 // app.use(morgan("dev"));
 app.use(express.json());
 
