@@ -1,7 +1,10 @@
 // server/src/app.mjs
 
-import dotenv from "dotenv";
 import express from "express";
+import userRoutes from "./routes/user.routes.js";
+import documentRoutes from "./routes/document.routes.js";
+import progressRoutes from "./routes/progress.routes.js";
+import wordRoutes from "./routes/word.routes.js";
 
 dotenv.config();
 // import cors from "cors";
@@ -24,6 +27,10 @@ app.use(cors(corsOptions));*/
 app.use(express.json());
 
 // Routes
+app.use("/api/user", userRoutes);
+app.use("/api/document", documentRoutes);
+app.use("/api/progress", progressRoutes);
+app.use("/api/word", wordRoutes);
 
 // Test route
 app.get("/try", (req, res) => {
