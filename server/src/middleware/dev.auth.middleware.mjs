@@ -2,6 +2,7 @@ import User from "../model/user.model.mjs";
 
 export default async function devAuthMiddleware(req, res, next) {
   try {
+    console.log("DEV AUTH HIT");
     // Get first user in DB
     const user = await User.findOne();
 

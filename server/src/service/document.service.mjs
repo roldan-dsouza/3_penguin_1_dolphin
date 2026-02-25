@@ -1,3 +1,5 @@
+// server/src/service/document.service.mjs
+
 import Document from "../model/document.model.mjs";
 import extractTextFromPDF from "./pdf.service.mjs";
 import { simplifyWithAI } from "./ai.service.mjs";
