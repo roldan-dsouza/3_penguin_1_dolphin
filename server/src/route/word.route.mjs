@@ -1,8 +1,7 @@
 // routes/word.routes.js
 
 import express from "express";
-import devAuthMiddleware from "../middleware/dev_auth.middleware.mjs";
-import { getWordMeaning } from "../controllers/word.controller.js";
+import devAuthMiddleware from "../middleware/dev.auth.middleware.mjs";
 
 const router = express.Router();
 

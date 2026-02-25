@@ -63,24 +63,35 @@ export const saveOnboarding = (req, res) => {
   }*/
 
 export const updateSettings = async (req, res) => {
-  const { font, fontSize, lineSpacing, wordSpacing, background } = req.body;
   try {
-    validateRequest(req, [
+    const userId = req.user.id; // assuming auth middleware
+
+    // Remove undefined fields (so we only update what was sent)
+    const updates = {};
+    const allowedFields = [
       "font",
       "fontSize",
       "lineSpacing",
       "wordSpacing",
       "background",
-    ]);
-    const settings = {
-      font,
-      fontSize,
-      lineSpacing,
-      wordSpacing,
-      background,
-    };
-    const newSettings = new userModel(settings);
-    const updatedSettings = await newSettings.save();
+    ];
+
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updates[field] = req.body[field];
+      }
+    });
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ message: "No fields provided to update" });
+    }
+
+    const updatedSettings = await userModel.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
     res.status(200).json({
       message: "Settings updated successfully",
       settings: updatedSettings,
