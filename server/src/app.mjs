@@ -14,7 +14,7 @@ dotenv.config();
 
 const app = express();
 
-//app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "*" }));
 
 const corsOptions = {
   origin: [process.env.FRONTEND_DOMAIN, "*"],

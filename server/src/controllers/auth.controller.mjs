@@ -10,6 +10,7 @@ export const login = (req, res) => {
   if (usermails.includes(email) && password == "password") {
     res.status(200).json({ message: "Login successful" });
   } else {
+    console.log(err, "error");
     res.status(401).json({ message: "Invalid email or password" });
   }
 };
