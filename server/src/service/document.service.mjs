@@ -1,0 +1,19 @@
+import Document from "../models/document.model.js";
+import { extractTextFromPDF } from "./pdf.service.mjs";
+import { simplifyWithAI } from "./ai.service.mjs";
+
+export const createDocument = async (file, userId) => {
+  const originalText = await extractTextFromPDF(file.path);
+
+  const simplifiedText = await simplifyWithAI(originalText, "pdf");
+
+  const document = await Document.create({
+    userId,
+    title: file.originalname,
+    originalFileUrl: file.path,
+    originalContent: originalText,
+    simplifiedContent: simplifiedText,
+  });
+
+  return document;
+};
