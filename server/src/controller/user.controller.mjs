@@ -12,7 +12,7 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-export const saveOnboarding = (req, res) => {
+export const saveOnboarding = async (req, res) => {
   const { strugglesWithWhite, prefersLargeText, readingMode } = req.body;
   if (
     strugglesWithWhite === undefined ||
@@ -29,7 +29,7 @@ export const saveOnboarding = (req, res) => {
     readingMode,
   };
   const newOnboardingSettings = new userModel(onboardingSettings);
-  newOnboardingSettings
+  await newOnboardingSettings
     .save()
     .then(() => {
       res.status(200).json({ message: "Settings saved successfully" });

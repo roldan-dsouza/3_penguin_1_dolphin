@@ -1,12 +1,14 @@
+// server/src/config/groq.config.mjs
+
 import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export const simplifyHtmlForDyslexia = async (req, res) => {
   try {
-    const { htmlContent } = req.body;
+    const { content } = req.body;
 
-    if (!htmlContent) {
+    if (content != htmlContent || content != pdf) {
       return res.status(400).json({ message: "HTML content is required." });
     }
 
