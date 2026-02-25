@@ -2,6 +2,9 @@ import { createDocument } from "../service/document.service.mjs";
 
 export const uploadDocument = async (req, res) => {
   try {
+    console.log("UPLOAD ROUTE HIT");
+    console.log("req.file:", req.file);
+    console.log("req.body:", req.body);
     const document = await createDocument(req.file, req.user._id);
 
     res.status(201).json({
