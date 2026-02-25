@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema(
     },
 
     onboarding: {
-      prefersLargeText: Boolean,
-      strugglesWithWhite: Boolean,
+      prefersLargeText: { type: Boolean, default: false },
+      strugglesWithWhite: { type: Boolean, default: false },
       readingMode: {
         type: String,
         enum: ["line", "paragraph", "normal"],
