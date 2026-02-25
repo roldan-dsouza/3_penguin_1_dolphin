@@ -6,7 +6,7 @@ import mongoose from "mongoose";
  */
 export default function devAuthMiddleware(req, res, next) {
   req.user = {
-    _id: new mongoose.Types.ObjectId("66a111111111111111111111"),
+    id: new mongoose.Types.ObjectId("66a111111111111111111111"),
   };
 
   next();
