@@ -1,5 +1,5 @@
 import userModel from "../model/user.model.mjs";
-usermails = ["aadmin@gmail.com"];
+usermails = ["aadmin@gmail.com", "austin@gmail.com"];
 
 export const login = (req, res) => {
   const { email, password } = req.body;
