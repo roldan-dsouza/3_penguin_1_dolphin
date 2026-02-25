@@ -1,62 +1,62 @@
-// server/src/config/groq.config.mjs
+// // server/src/config/groq.config.mjs
 
-import Groq from "groq-sdk";
+// import Groq from "groq-sdk";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-export const simplifyHtmlForDyslexia = async (req, res) => {
-  try {
-    const { content } = req.body;
+// export const simplifyHtmlForDyslexia = async (req, res) => {
+//   try {
+//     const { content } = req.body;
 
-    if (content != htmlContent || content != pdf) {
-      return res.status(400).json({ message: "HTML content is required." });
-    }
+//     if (content != htmlContent || content != pdf) {
+//       return res.status(400).json({ message: "HTML content is required." });
+//     }
 
-    const response = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "system",
-          content: `
-  You are a dyslexia accessibility expert.
-  
-  Your task:
-  - Simplify ALL visible text for people with dyslexia.
-  - Use short sentences.
-  - Use simple vocabulary.
-  - Use clear and direct language.
-  - One idea per sentence.
-  - Avoid complex words.
-  - Avoid long paragraphs.
-  - Avoid passive voice.
-  
-  CRITICAL RULES:
-  - DO NOT remove, add, or modify ANY HTML tags.
-  - DO NOT change tag names.
-  - DO NOT change attributes.
-  - DO NOT change structure.
-  - Keep EXACT same number of tags.
-  - Only rewrite the text between tags.
-  - Return FULL valid HTML.
-  - Output ONLY the modified HTML.
-            `,
-        },
-        {
-          role: "user",
-          content: htmlContent,
-        },
-      ],
-      max_tokens: 4000,
-    });
+//     const response = await groq.chat.completions.create({
+//       model: "llama-3.3-70b-versatile",
+//       messages: [
+//         {
+//           role: "system",
+//           content: `
+//   You are a dyslexia accessibility expert.
 
-    const simplifiedHtml = response.choices[0].message.content;
+//   Your task:
+//   - Simplify ALL visible text for people with dyslexia.
+//   - Use short sentences.
+//   - Use simple vocabulary.
+//   - Use clear and direct language.
+//   - One idea per sentence.
+//   - Avoid complex words.
+//   - Avoid long paragraphs.
+//   - Avoid passive voice.
 
-    res.status(200).json({
-      message: "HTML simplified successfully",
-      simplifiedHtml,
-    });
-  } catch (error) {
-    console.log("Full error:", error);
-    res.status(500).json({ message: error.message });
-  }
-};
+//   CRITICAL RULES:
+//   - DO NOT remove, add, or modify ANY HTML tags.
+//   - DO NOT change tag names.
+//   - DO NOT change attributes.
+//   - DO NOT change structure.
+//   - Keep EXACT same number of tags.
+//   - Only rewrite the text between tags.
+//   - Return FULL valid HTML.
+//   - Output ONLY the modified HTML.
+//             `,
+//         },
+//         {
+//           role: "user",
+//           content: htmlContent,
+//         },
+//       ],
+//       max_tokens: 4000,
+//     });
+
+//     const simplifiedHtml = response.choices[0].message.content;
+
+//     res.status(200).json({
+//       message: "HTML simplified successfully",
+//       simplifiedHtml,
+//     });
+//   } catch (error) {
+//     console.log("Full error:", error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };

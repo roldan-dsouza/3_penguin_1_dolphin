@@ -1,4 +1,4 @@
-import { simplifyFullHtml } from "../services/simplify.service.mjs";
+import { simplifyFullHtml } from "../service/simplify.service.mjs";
 
 export const simplifyContent = async (req, res) => {
   try {
