@@ -136,7 +136,7 @@ export default function LandingPage() {
               <h3 className="text-lg font-semibold text-[#1E1E1E] mb-2">
                 {f.title}
               </h3>
-              <p className="text-[#1E1E1E]/60 text-sm leading-relaxed">
+              <p className="text-black/60 text-base leading-relaxed">
                 {f.desc}
               </p>
             </motion.div>
