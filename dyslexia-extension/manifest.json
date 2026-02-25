@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Dyslexia Assist",
+  "version": "1.0",
+  "description": "Makes web content easier for dyslexic readers",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
