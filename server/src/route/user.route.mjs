@@ -1,12 +1,12 @@
 // routes/user.routes.js
 
 import express from "express";
-import devAuthMiddleware from "../middleware/dev_auth.middleware.mjs";
+import devAuthMiddleware from "../middleware/dev.auth.middleware.mjs";
 import {
   getUserProfile,
   saveOnboarding,
   updateSettings,
-} from "../controllers/user.controller.js";
+} from "../controller/user.controller.mjs";
 
 const router = express.Router();
 

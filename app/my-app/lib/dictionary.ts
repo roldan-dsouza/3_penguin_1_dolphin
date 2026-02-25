@@ -206,3 +206,9 @@ export function getSyllables(word: string): string[] {
     const lower = word.toLowerCase().replace(/[^a-z]/g, "");
     return syllableMap[lower] || autoSyllabify(lower);
 }
+const phoneticMap: Record<string, string> = {
+    hello: "/həˈloʊ/",
+    world: "/wɜːrld/",
+    // ... add more
+};
+export const getPhonetic = (word: string) => phoneticMap[word.toLowerCase()] || null;
