@@ -1,13 +1,19 @@
-import mongoose from "mongoose";
+import User from "../model/user.model.mjs";
 
-/**
- * Temporary development auth middleware
- * DO NOT USE IN PRODUCTION
- */
-export default function devAuthMiddleware(req, res, next) {
-  req.user = {
-    id: new mongoose.Types.ObjectId("699ee3abe6a4ad5f1d99e349"),
-  };
+export default async function devAuthMiddleware(req, res, next) {
+  try {
+    console.log("DEV AUTH HIT");
+    // Get first user in DB
+    const user = await User.findOne();
 
-  next();
+    if (!user) {
+      return res.status(404).json({ message: "No users in DB" });
+    }
+
+    req.user = user;
+
+    next();
+  } catch (err) {
+    res.status(500).json({ message: "Dev auth failed" });
+  }
 }

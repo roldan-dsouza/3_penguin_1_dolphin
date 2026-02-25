@@ -120,8 +120,8 @@ export default function DashboardPage() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             className={`rounded-2xl border-2 border-dashed p-12 md:p-16 text-center cursor-pointer transition-all duration-300 ${dragOver
-                ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
-                : "border-current/20 hover:border-current/40 hover:bg-current/5"
+              ? "border-indigo-500 bg-indigo-500/10 scale-[1.01]"
+              : "border-current/20 hover:border-current/40 hover:bg-current/5"
               }`}
           >
             <motion.div

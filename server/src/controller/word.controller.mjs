@@ -31,7 +31,6 @@ export const simplifyHtmlForDyslexia = async (req, res) => {
   - Use clear and direct language.
   - One idea per sentence.
   - Avoid complex words.
-  - Avoid long paragraphs.
   - Avoid passive voice.
   
   CRITICAL RULES:
@@ -50,7 +49,7 @@ export const simplifyHtmlForDyslexia = async (req, res) => {
           content: htmlContent,
         },
       ],
-      max_tokens: 10000,
+      max_tokens: 4000,
     });
 
     const simplifiedHtml = response.choices[0].message.content;
