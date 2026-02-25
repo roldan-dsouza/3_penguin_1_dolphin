@@ -1,4 +1,4 @@
-import { createDocument } from "../services/document.service.js";
+import { createDocument } from "../service/document.service.mjs";
 
 export const uploadDocument = async (req, res) => {
   try {

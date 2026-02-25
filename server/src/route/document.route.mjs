@@ -1,7 +1,7 @@
 // routes/document.routes.js
 
 import express from "express";
-import upload from "../middleware/upload.middleware.js";
+import upload from "../middleware/upload.middleware.mjs";
 import devAuthMiddleware from "../middleware/dev.auth.middleware.mjs";
 import {
   uploadDocument,
