@@ -48,19 +48,23 @@ chrome.runtime.onMessage.addListener(async (message) => {
     let content = article ? article.innerHTML : document.body.innerHTML;
     content = `${content}`;
 
-    console.log("Original content:", content);
-
-    await fetch("http://localhost:8000/api/word/enhanced", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content }),
-    })
-      .then((res) => console.log("Raw response:", res) || res.json())
-      .then((data) => {
-        renderSimplifiedView(data.simplified);
-      })
-      .catch((err) => {
-        console.error("Simplification failed:", err);
+    try {
+      const response = await fetch("http://localhost:8000/api/word/enhanced", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ htmlContent: content }),
       });
+
+      console.log("Status:", response.status);
+
+      const data = await response.json();
+      if (response.ok) {
+        document.body.innerHTML = data.simplifiedHtml;
+      }
+
+      console.log("Parsed JSON:", data);
+    } catch (error) {
+      console.error("Simplification failed:", error);
+    }
   }
 });

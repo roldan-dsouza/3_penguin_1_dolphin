@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/upload",
-  devAuthMiddleware,
+  //devAuthMiddleware,
   upload.single("file"),
   uploadDocument,
 );
