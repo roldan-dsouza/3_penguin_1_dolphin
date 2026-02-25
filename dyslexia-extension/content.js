@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener(async (message) => {
   if (message.type === "APPLY_STYLES") {
     const { fontFamily, fontSize, lineHeight, wordSpacing, background } =
       message.payload;
@@ -35,16 +35,17 @@ chrome.runtime.onMessage.addListener((message) => {
 
   if (message.type === "SIMPLIFY_PAGE") {
     const article = document.querySelector("article");
-    let content = article ? article.innerText : document.body.innerText;
+    let content = article ? article.innerHTML : document.body.innerHTML;
+    content = `${content}`;
 
     console.log("Original content:", content);
 
-    fetch("http://localhost:8000/api/simplify", {
+    await fetch("http://localhost:8000/api/word/enhanced", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content }),
     })
-      .then((res) => res.json(), console.log(res.json()))
+      .then((res) => console.log("Raw response:", res) || res.json())
       .then((data) => {
         renderSimplifiedView(data.simplified);
       })

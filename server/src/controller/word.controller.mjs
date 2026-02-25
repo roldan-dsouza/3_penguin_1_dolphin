@@ -1,8 +1,9 @@
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 dotenv.config();
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: GROQ_API_KEY });
 
 export const simplifyHtmlForDyslexia = async (req, res) => {
   try {
@@ -49,7 +50,7 @@ export const simplifyHtmlForDyslexia = async (req, res) => {
           content: htmlContent,
         },
       ],
-      max_tokens: 4000,
+      max_tokens: 10000,
     });
 
     const simplifiedHtml = response.choices[0].message.content;
