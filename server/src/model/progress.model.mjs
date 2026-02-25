@@ -4,17 +4,16 @@ import mongoose from "mongoose";
 
 const progressSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-
     documentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Document",
+      required: true,
     },
 
-    scrollPosition: Number,
+    scrollPosition: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true },
 );
