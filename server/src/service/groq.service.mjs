@@ -2,59 +2,56 @@ import Groq from "groq-sdk";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-export const processImage = async (req, res) => {
-  try {  
-    const detectedIngredients = visionResponse.choices[0].message.content;
+export const simplifyHtmlForDyslexia = async (req, res) => {
+  try {
+    const { htmlContent } = req.body;
 
-    if (detectedIngredients.includes("NO_INGREDIENTS")) {
-      return res.status(400).json({ message: "No food detected." });
+    if (!htmlContent) {
+      return res.status(400).json({ message: "HTML content is required." });
     }
-    // Step 2 & 3: Generate Highly Detailed Structured JSON Recipes
-    const recipeResponse = await groq.chat.completions.create({
+
+    const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
       messages: [
         {
           role: "system",
-          content:
-            "You are a professional Michelin-star chef who outputs only valid JSON. You provide extremely detailed, professional instructions.",
+          content: `
+  You are a dyslexia accessibility expert.
+  
+  Your task:
+  - Simplify ALL visible text for people with dyslexia.
+  - Use short sentences.
+  - Use simple vocabulary.
+  - Use clear and direct language.
+  - One idea per sentence.
+  - Avoid complex words.
+  - Avoid long paragraphs.
+  - Avoid passive voice.
+  
+  CRITICAL RULES:
+  - DO NOT remove, add, or modify ANY HTML tags.
+  - DO NOT change tag names.
+  - DO NOT change attributes.
+  - DO NOT change structure.
+  - Keep EXACT same number of tags.
+  - Only rewrite the text between tags.
+  - Return FULL valid HTML.
+  - Output ONLY the modified HTML.
+            `,
         },
         {
           role: "user",
-          content: `Generate 5 unique, gourmet recipes using these ingredients: ${detectedIngredients}. 
-          Return a JSON object with a key "recipeList" containing an array of 5 objects.
-          
-          For the "instructions" array: 
-          - Provide at least 6-8 detailed steps per recipe.
-          - Include specific techniques (e.g., 'sauté until translucent', 'deglaze the pan', 'fold gently').
-          - Include approximate timing for steps (e.g., 'simmer for 10-12 minutes').
-          - Add a final 'Chef's Tip' as the last step in the instructions array.
-
-          JSON Structure:
-          {
-            "recipeList": [
-              {
-                "title": "String",
-                "ingredients": ["Quantity + Item", "Quantity + Item"],
-                "instructions": ["Detailed Step 1...", "Detailed Step 2...", "Chef's Tip: ..."],
-                "difficulty": "Easy/Medium/Hard",
-                "prepTime": "String (e.g. 15 mins)"
-              }
-            ]
-          }`,
+          content: htmlContent,
         },
       ],
-      response_format: { type: "json_object" },
-      max_tokens: 3500, // Increased tokens because the instructions are now longer/detailed
+      max_tokens: 4000,
     });
 
-    const structuredData = JSON.parse(
-      recipeResponse.choices[0].message.content,
-    );
-    // Step 4: Final Response
+    const simplifiedHtml = response.choices[0].message.content;
+
     res.status(200).json({
-      message: "Image processed successfully",
-      ingredients: detectedIngredients,
-      recipes: structuredData.recipeList, // This is now an array!
+      message: "HTML simplified successfully",
+      simplifiedHtml,
     });
   } catch (error) {
     console.log("Full error:", error);
