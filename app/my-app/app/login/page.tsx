@@ -15,8 +15,38 @@ export default function LoginPage() {
     const { login, onboardingComplete } = useApp();
     const router = useRouter();
 
-    const handleSubmit = (e: FormEvent) => {
+    //login api call 
+    const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setError("");
 
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || "Login failed");
+                return;
+            }
+
+            // 1. Save user to Context/State
+            login(data.user);
+
+            // 2. Navigation Logic based on your backend 'hasPreferences' flag
+            if (data.user.hasPreferences) {
+                router.push("/dashboard");
+            } else {
+                router.push("/questionnaire");
+            }
+
+        } catch (err) {
+            setError("Server connection failed. Check if backend is running.");
+        }
     };
 
     return (
