@@ -1,11 +1,11 @@
-import userModel from "../model/user.model.mjs";
-import { validateRequest } from "../util/validate.request.util.mjs";
+import User from "../model/user.model.mjs";
+//import { validateRequest } from "../util/validate.request.util.mjs";
 
 export const getUserProfile = async (req, res) => {
   const { id } = req.user;
   try {
     console.log(id);
-    const user = await userModel.findById(id).select("-password");
+    const user = await User.findById(id).select("-password");
     return res.status(200).json(user);
   } catch (err) {
     console.error("Error fetching user profile:", err);
@@ -14,31 +14,43 @@ export const getUserProfile = async (req, res) => {
 };
 
 export const saveOnboarding = async (req, res) => {
-  const { strugglesWithWhite, prefersLargeText, readingMode } = req.body;
-  if (
-    strugglesWithWhite === undefined ||
-    prefersLargeText === undefined ||
-    !readingMode
-  ) {
-    return res
-      .status(400)
-      .json({ message: "All settings fields are required" });
+  try {
+    const { strugglesWithWhite, prefersLargeText, readingMode } = req.body;
+
+    if (
+      strugglesWithWhite === undefined ||
+      prefersLargeText === undefined ||
+      !readingMode
+    ) {
+      return res
+        .status(400)
+        .json({ message: "All settings fields are required" });
+    }
+
+    // Get user ID from middleware
+    const userId = req.user._id;
+
+    // Find existing user
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Save settings inside user document
+    user.onboarding = {
+      strugglesWithWhite,
+      prefersLargeText,
+      readingMode,
+    };
+
+    await user.save();
+
+    res.status(200).json({ message: "Settings saved successfully" });
+  } catch (error) {
+    console.error("Error saving settings:", error);
+    res.status(500).json({ message: "Failed to save settings" });
   }
-  const onboardingSettings = {
-    strugglesWithWhite,
-    prefersLargeText,
-    readingMode,
-  };
-  const newOnboardingSettings = new User(onboardingSettings);
-  await newOnboardingSettings
-    .save()
-    .then(() => {
-      res.status(200).json({ message: "Settings saved successfully" });
-    })
-    .catch((err) => {
-      console.error("Error saving settings:", err);
-      res.status(500).json({ message: "Failed to save settings" });
-    });
 };
 /*settings: {
     font: {
