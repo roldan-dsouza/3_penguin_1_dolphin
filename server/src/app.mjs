@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import express from "express";
 import userRoutes from "./route/user.route.mjs";
 import documentRoutes from "./route/document.route.mjs";
-import progressRoutes from "./route/progress.route.mjs";
 import wordRoutes from "./route/word.route.mjs";
 import authRoutes from "./routes/auth.routes.mjs";
 //import simplifyRoutes from "./routes/simplify.routes.mjs";
@@ -15,7 +14,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: "*" }));
+//app.use(cors({ origin: "*" }));
 
 const corsOptions = {
   origin: [process.env.FRONTEND_DOMAIN, "*"],
@@ -34,7 +33,6 @@ app.use(express.json());
 // Routes
 app.use("/api/user", userRoutes);
 app.use("/api/document", documentRoutes);
-app.use("/api/progress", progressRoutes);
 app.use("/api/word", wordRoutes);
 app.use("/api/auth", authRoutes);
 //app.use("/api/simplify", simplifyRoutes);

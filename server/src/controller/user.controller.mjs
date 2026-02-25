@@ -4,6 +4,7 @@ import { validateRequest } from "../util/validate.request.util.mjs";
 export const getUserProfile = async (req, res) => {
   const { id } = req.user;
   try {
+    console.log(id);
     const user = await userModel.findById(id).select("-password");
     return res.status(200).json(user);
   } catch (err) {
@@ -28,7 +29,7 @@ export const saveOnboarding = async (req, res) => {
     prefersLargeText,
     readingMode,
   };
-  const newOnboardingSettings = new userModel(onboardingSettings);
+  const newOnboardingSettings = new User(onboardingSettings);
   await newOnboardingSettings
     .save()
     .then(() => {
@@ -89,7 +90,7 @@ export const updateSettings = async (req, res) => {
     const updatedSettings = await userModel.findByIdAndUpdate(
       userId,
       { $set: updates },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     res.status(200).json({
