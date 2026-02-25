@@ -1,5 +1,5 @@
-import Document from "../model/document.model.mjs";
-import extractTextFromPDF from "./pdf.service.mjs";
+import Document from "../models/document.model.js";
+import { extractTextFromPDF } from "./pdf.service.mjs";
 import { simplifyWithAI } from "./ai.service.mjs";
 
 export const createDocument = async (file, userId) => {
