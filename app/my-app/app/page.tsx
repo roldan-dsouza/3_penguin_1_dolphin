@@ -42,7 +42,7 @@ export default function LandingPage() {
           <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
             <BookOpen className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-[#1E1E1E]">ReadEasy</span>
+          <span className="text-xl font-bold text-[#1E1E1E]">ReadEase</span>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 20 }}
