@@ -49,7 +49,7 @@ export default function DashboardPage() {
         const response = await fetch(`${apiUrl}/api/document/upload`, {
           method: "POST",
           // If your backend uses cookies for authentication, include credentials
-          credentials: "include",
+          
           // If you use JWT tokens, add an Authorization header:
           // headers: { Authorization: `Bearer ${user?.token}` },
           body: formData,

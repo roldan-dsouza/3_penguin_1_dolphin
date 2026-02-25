@@ -15,16 +15,19 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: "*" }));
-
+// const corsOptions = {
+//   origin: [process.env.FRONTEND_DOMAIN, "*"],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+// };
+// console.log("CORS Origins:", process.env.FRONTEND_DOMAIN);
 const corsOptions = {
-  origin: [process.env.FRONTEND_DOMAIN, "*"],
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
-console.log("CORS Origins:", process.env.FRONTEND_DOMAIN);
 
 // Middleware
 app.use(cors(corsOptions));

@@ -1,4 +1,4 @@
-// server/src/models/document.model.mjs
+// model/document.model.mjs
 
 import mongoose from "mongoose";
 
