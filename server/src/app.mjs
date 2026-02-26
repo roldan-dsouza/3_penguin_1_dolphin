@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import userRoutes from "./route/user.route.mjs";
-import documentRoutes from "./route/document.route.mjs";
+//import documentRoutes from "./route/document.route.mjs";
 //import progressRoutes from "./route/progress.route.mjs";
 import wordRoutes from "./route/word.route.mjs";
 import authRoutes from "./routes/auth.routes.mjs";
@@ -36,7 +36,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/user", userRoutes);
-app.use("/api/document", documentRoutes);
+//app.use("/api/document", documentRoutes);
 //app.use("/api/progress", progressRoutes);
 app.use("/api/word", wordRoutes);
 app.use("/api/auth", authRoutes);

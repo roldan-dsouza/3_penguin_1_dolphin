@@ -1,174 +1,163 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Dyslexia Assist</title>
-    <style>
-      :root {
-        --primary-blue: #4a90e2;
-        --bg-color: #f8fafc;
-        --text-color: #334155;
-        --accent-color: #6366f1;
-      }
 
-      body {
-        width: 300px;
-        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        padding: 16px;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        margin: 0;
-      }
+<head>
+  <title>ReadEase</title>
+  <style>
+    :root {
+      --primary-blue: #4a90e2;
+      --bg-color: #f8fafc;
+      --text-color: #334155;
+      --accent-color: #6366f1;
+    }
 
-      h2 {
-        font-size: 18px;
-        margin: 0 0 16px 0;
-        color: var(--primary-blue);
-        text-align: center;
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 10px;
-      }
+    body {
+      width: 300px;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 16px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+    }
 
-      .control-group {
-        margin-bottom: 14px;
-      }
+    h2 {
+      font-size: 18px;
+      margin: 0 0 16px 0;
+      color: var(--primary-blue);
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 10px;
+    }
 
-      label {
-        font-size: 13px;
-        font-weight: 600;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 6px;
-      }
+    .control-group {
+      margin-bottom: 14px;
+    }
 
-      /* Modernizing Select & Inputs */
-      select,
-      input[type="color"] {
-        width: 100%;
-        padding: 8px;
-        border-radius: 6px;
-        border: 1px solid #cbd5e1;
-        background: white;
-        cursor: pointer;
-      }
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
 
-      /* Range Slider Styling */
-      input[type="range"] {
-        width: 100%;
-        height: 6px;
-        background: #e2e8f0;
-        border-radius: 5px;
-        appearance: none;
-        outline: none;
-      }
+    /* Modernizing Select & Inputs */
+    select,
+    input[type="color"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+    }
 
-      input[type="range"]::-webkit-slider-thumb {
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        background: var(--primary-blue);
-        border-radius: 50%;
-        cursor: pointer;
-        transition: 0.2s;
-      }
+    /* Range Slider Styling */
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 5px;
+      appearance: none;
+      outline: none;
+    }
 
-      input[type="range"]::-webkit-slider-thumb:hover {
-        transform: scale(1.2);
-        background: var(--accent-color);
-      }
+    input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--primary-blue);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-      /* Buttons */
-      .btn-container {
-        display: flex;
-        gap: 8px;
-        margin-top: 20px;
-      }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: var(--accent-color);
+    }
 
-      button {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
 
-      #apply {
-        background-color: var(--primary-blue);
-        color: white;
-      }
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-      #apply:hover {
-        background-color: #357abd;
-      }
+    #apply {
+      background-color: var(--primary-blue);
+      color: white;
+    }
 
-      #simplify {
-        background-color: #e2e8f0;
-        color: #475569;
-      }
+    #apply:hover {
+      background-color: #357abd;
+    }
 
-      #simplify:hover {
-        background-color: #cbd5e1;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Dyslexia Assist</h2>
+    #simplify {
+      background-color: #e2e8f0;
+      color: #475569;
+    }
 
-    <div class="control-group">
-      <label for="fontFamily">Font Style</label>
-      <select id="fontFamily">
-        <option value="Arial, sans-serif">Arial</option>
-        <option value="Verdana, sans-serif">Verdana</option>
-        <option value="Georgia, serif">Georgia</option>
-        <option value="'OpenDyslexic', sans-serif">OpenDyslexic</option>
-      </select>
-    </div>
+    #simplify:hover {
+      background-color: #cbd5e1;
+    }
+  </style>
+</head>
 
-    <div class="control-group">
-      <label>Font Size <span>(px)</span></label>
-      <input type="range" id="fontSize" min="14" max="32" value="18" />
-    </div>
+<body>
+  <h2>Dyslexia Assist</h2>
 
-    <div class="control-group">
-      <label>Line Height</label>
-      <input
-        type="range"
-        id="lineHeight"
-        min="1"
-        max="3"
-        step="0.1"
-        value="1.8"
-      />
-    </div>
+  <div class="control-group">
+    <label for="fontFamily">Font Style</label>
+    <select id="fontFamily">
+      <option value="Arial, sans-serif">Arial</option>
+      <option value="Verdana, sans-serif">Verdana</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'OpenDyslexic', sans-serif">OpenDyslexic</option>
+    </select>
+  </div>
 
-    <div class="control-group">
-      <label>Word Spacing</label>
-      <input
-        type="range"
-        id="wordSpacing"
-        min="0"
-        max="1"
-        step="0.05"
-        value="0.15"
-      />
-    </div>
+  <div class="control-group">
+    <label>Font Size <span>(px)</span></label>
+    <input type="range" id="fontSize" min="14" max="32" value="18" />
+  </div>
 
-    <div class="control-group">
-      <label>Background Color</label>
-      <input type="color" id="background" value="#f4ecd8" />
-    </div>
+  <div class="control-group">
+    <label>Line Height</label>
+    <input type="range" id="lineHeight" min="1" max="3" step="0.1" value="1.8" />
+  </div>
 
-    <div class="control-group">
-      <label>Font Color</label>
-      <input type="color" id="fontColor" value="#000000" />
-    </div>
+  <div class="control-group">
+    <label>Word Spacing</label>
+    <input type="range" id="wordSpacing" min="0" max="1" step="0.05" value="0.15" />
+  </div>
 
-    <div class="btn-container">
-      <button id="simplify">Simplify</button>
-      <button id="apply">Apply Settings</button>
-    </div>
-    <script src="content.js"></script>
-    <script src="popup.js"></script>
-  </body>
+  <div class="control-group">
+    <label>Background Color</label>
+    <input type="color" id="background" value="#f4ecd8" />
+  </div>
+
+  <div class="control-group">
+    <label>Font Color</label>
+    <input type="color" id="fontColor" value="#000000" />
+  </div>
+
+  <div class="btn-container">
+    <button id="simplify">Simplify</button>
+    <button id="apply">Apply Settings</button>
+  </div>
+  <script src="content.js"></script>
+  <script src="popup.js"></script>
+</body>
+
 </html>

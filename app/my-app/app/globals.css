@@ -113,6 +113,7 @@ body {
 
 /* Floating Animation */
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0px);
@@ -220,6 +221,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
