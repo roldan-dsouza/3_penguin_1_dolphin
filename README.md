@@ -24,7 +24,7 @@ Millions of people with dyslexia and other reading challenges struggle with:
 - Complex vocabulary
 - Cluttered web layouts
 - Poor font and spacing choices
-- Hard-to-navigate PDF documents
+- Hard-to-navigate documents
 
 Despite the explosion of digital information, accessibility for neurodivergent readers remains limited.
 
@@ -62,8 +62,7 @@ Users can adapt _any_ website to their comfort level.
 
 ### 2. ReadEase Web App
 
-- Upload PDF documents
-- Extract text using PDF parsing
+- Upload documents
 - Simplify content using AI
 - Store both original and simplified versions
 - Create a personal accessible document library
@@ -79,9 +78,7 @@ ReadEase goes beyond simple text enlargement.
 ### Key Innovations:
 
 - AI-driven HTML transformation without breaking page structure
-- Dual pipeline architecture:
-  - Live HTML simplification
-  - PDF extraction and transformation
+- Live HTML simplification
 - Real-time DOM manipulation
 
 ---
@@ -99,13 +96,12 @@ ReadEase goes beyond simple text enlargement.
 - Express.js
 - MongoDB
 - Multer (file uploads)
-- pdf-parse (PDF text extraction)
 - Groq API (LLM-powered simplification)
 
 ### Architecture Highlights
 
 - Separate routes for:
-  - `/api/document/upload` (PDF library)
+  - `/api/document/upload`
   - `/api/simplify` (Live HTML transformation)
 - Structured DOM-safe content handling
 - Scalable backend design
@@ -141,7 +137,7 @@ Accessibility should not be optional & ReadEase makes it effortless.
 
 ```bash
 git clone https://github.com/roldan-dsouza/3_penguin_1_dolphin.git
-cd readease
+cd 3_penguin_1_dolphin
 ```
 
 ---
@@ -156,6 +152,9 @@ npm install
 Create a `.env` file:
 
 ```
+MONGODB_URI=mongodb_url
+DB_NAME=readease
+PORT=8000
 GROQ_API_KEY=your_api_key_here
 ```
 
@@ -174,24 +173,6 @@ npm run dev
 3. Enable **Developer Mode**
 4. Click **Load Unpacked**
 5. Select the `dyslexia-extension` folder
-
----
-
-### 4. Testing PDF Upload
-
-Use Postman:
-
-```
-POST http://localhost:8000/api/document/upload
-Body → form-data → file (PDF)
-```
-
----
-
-## 5. Demo / Presentation
-
-🔗 Demo Video: _[Insert Demo Link]_
-🔗 Presentation Slides: _[Insert Slides Link]_
 
 ---
 
